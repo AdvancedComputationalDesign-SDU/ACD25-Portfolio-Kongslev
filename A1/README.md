@@ -8,7 +8,7 @@ search_exclude: false
 ---
 # Documentation for Assignment 1
 
-This is a template for documenting your assignment. Feel free to use the structure below, add/remove section, or re-organize the order to explain your project.
+This is the documentation of assignment 1. where the focus was on using NumPy Array Manipulation for 2D Pattern Generation
 
 ## Table of Contents
 
@@ -90,15 +90,21 @@ Finally, I used Matplotlib's `imshow()` to show the image and `savefig()` to sav
 ---
 
 ## Results
+The results from this assignment can be seen below with a short discribtion 
 ![Black empty canvas](images/black_empty_canvas.png)
 *Figure 1: black empty canvas*
 
 ![Horizontal stripes](images/stripes_pattern.png)
-![Random noise pattern](images/noise_pattern.png)
-![Distance-based RGB gradient](images/RGB_channel_pointinmid.png)
-![Distance gradient combined with noise](images/distance_noise_combined.png)
+*Figure 2: showing a black and white stiped horizontal pattern*
 
-the images from the results can be seen in the image folder
+![Random noise pattern](images/noise_pattern.png)
+*Figure 3: showing a random noise pattern*
+
+![Distance-based RGB gradient](images/RGB_channel_pointinmid.png)
+*Figure 4: showing a RGB gradient that is based on distance*
+
+![Distance gradient combined with noise](images/distance_noise_combined.png)
+*Figure 5: showing a combination of RGB gradient and noisepattern*
 
 ---
 
