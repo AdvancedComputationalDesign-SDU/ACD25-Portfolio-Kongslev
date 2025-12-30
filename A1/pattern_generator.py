@@ -4,40 +4,53 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+import os
+if not os.path.exists("images"):
+    os.makedirs("images")
+
+
 # Creating a numpy array filled with zeros to create the size of the canvas
 height = 500  #height of the canvas
 width = 500   #width of the canvas
 canvas = np.zeros((height, width, 3), dtype=np.uint8) #3 channels for RGB
 #print(canvas)
 
-#creating a black empty canvas (showed as an image) 
-plt.imshow(canvas) # Showes the array as a image
-plt.title("black empty canvas")  #controle the name of the image
-plt.axis('off') # hide the axis
+#-------creating a black empty canvas (showed as an image)------
+# Save black empty canvas
+plt.figure()
+plt.imshow(np.zeros((height, width, 3), dtype=np.uint8))
+plt.axis('off')
+plt.title("Black empty canvas")
+plt.savefig('images/black_empty_canvas1.png', bbox_inches='tight', pad_inches=0)
+plt.close()
 plt.show()
 
-# Creating a pattern using array
+
+# -------Creating a pattern using array----------
 # pattern with horizontal stripes:
 for i in range(0, height, 40):  # jumps forward by 40 pixels
     canvas[i:i+15, :] = 255     # color 15 pixels white in height
 
 # creating a canvas with horizontal stripes
+plt.figure()
 plt.imshow(canvas)
-plt.title("stripes")
 plt.axis('off')
-plt.show()
+plt.title("Horizontal stripes")
+plt.savefig('images/stripes_pattern.png', bbox_inches='tight', pad_inches=0)
+plt.close()
 
 
-# Creating random noise pattern 
+# -------Creating random noise pattern----------
 canvas = np.random.choice([0, 255], size=(height, width)) #choosing the size of the canvas with random black and white pixels
 canvas_noise = np.stack([canvas, canvas, canvas], axis=2) #keeping it to RGB chanel as the assignments above
 
 # Creating a grapic canvas with random noise pattern in black and white 
+plt.figure()
 plt.imshow(canvas_noise)
-plt.title("random noise pattern")
 plt.axis('off')
-plt.show()
-
+plt.title("Random noise pattern")
+plt.savefig('images/noise_pattern.png', bbox_inches='tight', pad_inches=0)
+plt.close()
 
 
 #----- Working with RGB channels------
@@ -75,14 +88,15 @@ for y in range(height): #loop over the height of the canvas
 
 
 # Creating a graphic illustration of the distance-based gradient
+plt.figure()
 plt.imshow(RGB_canvas)
 plt.axis('off')
-plt.title("Color gradient based on distance")
-plt.show()
+plt.title("Distance-based RGB gradient")
+plt.savefig('images/RGB_channel_pointinmid.png', bbox_inches='tight', pad_inches=0)
+plt.close()
 
-# 
+
 # -------Distance map combined with noise-------
-# 
 
 # Create coordinate grid
 y, x = np.meshgrid(np.arange(height), np.arange(width), indexing='ij')
@@ -126,13 +140,9 @@ RGB_combined[mask2, 2] = (combined[mask2] - 0.5) / 0.5
 
 
 # Display and save the combined image
+plt.figure()
 plt.imshow(RGB_combined)
-plt.title("Distance gradient combined with noise")
 plt.axis('off')
-plt.show()
-
-# Save the image to the images folder
-plt.savefig('images/black_empty_canvas.png', bbox_inches='tight', pad_inches=0)
-plt.savefig('images/15.stribe.png', bbox_inches='tight', pad_inches=0)
-plt.savefig('images/noise pattern.png', bbox_inches='tight', pad_inches=0)
-plt.savefig('images/RGB_channel_pointinmid.png', bbox_inches='tight', pad_inches=0)
+plt.title("Distance gradient combined with noise")
+plt.savefig('images/distance_noise_combined.png', bbox_inches='tight', pad_inches=0)
+plt.close()
