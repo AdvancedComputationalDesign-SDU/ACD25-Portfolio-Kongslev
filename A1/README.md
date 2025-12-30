@@ -61,11 +61,30 @@ This is the documentation of assignment 1. where the focus was on using NumPy Ar
    - **Else** (distance between 0.5 and 1)
       - blend the color from green to blue
 
+7. **Create a distance gradient combined with a random noise pattern**
+    - **Set values**
+        - Set distance_weight = 0.6
+        - Set noise_weight = 0.4
+        - Set mid_point = 0.5
+    - Create a coordinate grid with the size of the canvas
+    - Calculate the distance from each pixel to the center
+    - Normalize the distance to a value between 0 (center) and 1 (corner)
+    - Generate a 2D random noise array with values between 0 and 1
+    - Combine distance and noise:
+         - combined = normalized_distance * (distance_weight + noise_weight * noise)
+    - Split the combined array into two masks:
+        - mask1: pixels <= mid_point (inner gradient)
+        - mask2: pixels > mid_point  (outer gradient)
+        
+    - **Assign RGB colors based on masks**
+        - mask1: blend red → green
+        - mask2: blend green → blue
 
 7. **Display the final gradient pattern**
    - Use Matplotlib to display the image
    - add a title to the canvas
    - turn off the axis 
+
 
 
 8. **Save the images to a folder**
@@ -84,6 +103,11 @@ because i wanted to keep working in RGB i had to convert the 2D array into an RG
 
 as the last part of the assignemnt i created a radial color gradient where i calculating the distance from each pixel to the center of the canvas. I normalized this distance to a [0, 1] to create a smooth transition between the colors, the RGB colors were definded based on the normalized distance so the pixels close to the center transitioned from red to green and the pixels farther from the center transitioned from green to blue.
 
+as an addition, I combined a distance-based RGB gradient with random noise to create a more dynamic pattern.
+The distance map controls the overall color structure from the center outward, while the noise introduces local variation.
+Pixels are divided at a midpoint (0.5) so that the inner area transitions from red to green and the outer area from green to blue.
+Using NumPy masks allows us to assign RGB values efficiently without looping over each pixel.
+
 Finally, I used Matplotlib's `imshow()` to show the image and `savefig()` to save it in the correct file. 
 
 
@@ -98,17 +122,25 @@ The results from this assignment can be seen below with a short discribtion
 
 *Figure 1: black empty canvas*
 
+
+
 ![Horizontal stripes](images/stripes_pattern.png)
 
 *Figure 2: showing a black and white stiped horizontal pattern*
+
+
 
 ![Random noise pattern](images/noise_pattern.png)
 
 *Figure 3: showing a random noise pattern*
 
+
+
 ![Distance-based RGB gradient](images/RGB_channel_pointinmid.png)
 
 *Figure 4: showing a RGB gradient that is based on distance*
+
+
 
 ![Distance gradient combined with noise](images/distance_noise_combined.png)
 
