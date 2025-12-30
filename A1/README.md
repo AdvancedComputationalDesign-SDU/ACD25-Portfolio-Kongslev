@@ -1,5 +1,6 @@
 
 # Assignment 1: NumPy Array Manipulation for 2D Pattern Generation
+
 ## Objective
 
 The goal of this assignment is to create a Python program using NumPy to manipulate a 2-dimensional array and transform a blank canvas into a patterned image. You are asked apply various array operations, introduce randomness, and work with RGB channels to produce full-color images.
@@ -17,9 +18,8 @@ A1/
 └── images/                     # Add diagram, intermediary, and final images here
     ├── perlin_moire.png        # Assignment brief image; Do not delete
     └── ...
----
-
-## Documentation for Assignment 1
+```
+# Documentation for Assignment 1
 
 This is the documentation of assignment 1. where the focus was on using NumPy Array Manipulation for 2D Pattern Generation
 
@@ -169,5 +169,4 @@ The results from this assignment can be seen below with a short discribtion
 - creating random pattern: [Numpy.random.choice] (https://numpy.org/doc/stable/reference/random/generated/numpy.random.choice.html)
 - Theory on color gradient:(https://en.wikipedia.org/wiki/Color_gradient)
 - i used ChatGPT for Debuging so when my code didn't work and also to help with understandig GitHup
-
 ---
