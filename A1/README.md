@@ -90,13 +90,15 @@ Finally, I used Matplotlib's `imshow()` to show the image and `savefig()` to sav
 ---
 
 ## Results
+![Black empty canvas](images/black_empty_canvas.png)
+*Figure 1: black empty canvas*
+
+![Horizontal stripes](images/stripes_pattern.png)
+![Random noise pattern](images/noise_pattern.png)
+![Distance-based RGB gradient](images/RGB_channel_pointinmid.png)
+![Distance gradient combined with noise](images/distance_noise_combined.png)
 
 the images from the results can be seen in the image folder
-
-[Black empty canvas] ('images/black_empty_canvas.png', bbox_inches='tight', pad_inches=0)
-[Pattern with stripes] ('images/15.stribe.png', bbox_inches='tight', pad_inches=0)
-[random noise pattern] ('images/noise pattern.png', bbox_inches='tight', pad_inches=0)
-[RGB color gradient] ('images/RGB_channel_pointinmid.png', bbox_inches='tight', pad_inches=0)
 
 ---
 
