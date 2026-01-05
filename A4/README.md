@@ -68,6 +68,7 @@ The pseudo-code for each module is described in detail below.
 ### Surface generator (heightmap)
 
 1. **Setting up the python component**
+
     Input:
     - srf (surface): Rhino surface object
     - U (int): number of divisions along U direction
@@ -86,7 +87,7 @@ The pseudo-code for each module is described in detail below.
     - mesh: mesh constructed from quad faces (tesselation 1) 
     - tri_mesh: mesh constructed from triangular faces (tesselation 2)
     
-2. **Define Heightmap Generation Logic**
+2. **Define Heightmap generation logic**
     - Initialize random seed to ensure reproducibility
     - Get Surface Domains for both U and V directions (start and end parameters)
     - Create coordinate grids by generating evenly spaced values across the U and V domains
@@ -99,10 +100,38 @@ The pseudo-code for each module is described in detail below.
         - Normalize distances and calculate a radial falloff (fading from center)
         - Generate a random noise array and combine it with the radial falloff and amplitude
 
-3. **Sample Surface and Apply Displacement**
+3. **Sample Surface and apply displacement**
     - **For** each coordinate pair in the U and V grids:
         - Evaluate the surface to find the 3D base point
         - Calculate the surface normal (the perpendicular direction) at that point
         - Extract the corresponding height value from the heightmap
         - Move point: Create a new 3D point by moving the base point along the normal vector by the height value
+    - Store these displaced points in a 2D list (rows and columns).
 
+4. **Generate grid edges**
+    - **For** every row and column in the point grid:
+        - If there is a neighbor in the U direction:
+            - Create a line (edge) between the current point and the next point in the row.
+        - If there is a neighbor in the V direction:
+            - Create a line (edge) between the current point and the next point in the column.
+
+5. **Construct quad mesh (tesselation 1)**
+    - Flatten the 2D point grid into a 1D list of vertices.
+    - **For** each cell in the grid (excluding the last row/column):
+        - Identify the four corner indices (A, B, C, D) of the current cell.
+        - Define a quad face using these four indices.
+    - Assemble the mesh using all vertices and quad faces.
+
+6. **Construct triangulated mesh (tesselation 2)**
+    - Use the same flattened list of vertices.
+    - **For** each cell in the grid:
+        - Identify the four corner indices (A, B, C, D).
+    - Split the quad into two triangles:
+        - Triangle 1: Connect indices A, B, and C.
+        - Triangle 2: Connect indices A, C, and D.
+    - Assemble the mesh using all vertices and the resulting triangular faces.
+
+7. **Final Execution and Output**
+    - Run the heightmap and sampling functions to generate the displaced points.
+    - Convert the point list into a DataTree
+    - Return the point tree, the list of edges, the quad mesh, and the triangular mesh.
