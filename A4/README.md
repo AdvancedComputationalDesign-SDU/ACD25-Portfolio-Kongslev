@@ -65,3 +65,44 @@ This project consist of three python moduls:
 
 The pseudo-code for each module is described in detail below.
 
+### Surface generator (heightmap)
+
+1. **Setting up the python component**
+    Input:
+    - srf (surface): Rhino surface object
+    - U (int): number of divisions along U direction
+    - V (int): number of divisions along V direction
+    - amp (float): amplitude, maximum height displacement
+    - freq_u (float): frequency of wave in U direction
+    - freq_v (float): frequency of wave in V direction
+    - heightmap_type (int): 
+        - 0 = sinusoidal 
+        - 1 = radial + noise
+    - seed (int): random seed for reproducibility
+    
+    Output:
+    - pts_tree: containing the displaced 3D points 
+    - edges: line objects representing the wireframe
+    - mesh: mesh constructed from quad faces (tesselation 1) 
+    - tri_mesh: mesh constructed from triangular faces (tesselation 2)
+    
+2. **Define Heightmap Generation Logic**
+    - Initialize random seed to ensure reproducibility
+    - Get Surface Domains for both U and V directions (start and end parameters)
+    - Create coordinate grids by generating evenly spaced values across the U and V domains
+    - **If** heightmap_type is 0 (Sinusoidal):
+        - Calculate height (H) using a sinewave based on U/V frequencies and amplitude
+
+    - **Else** if heightmap_type is 1 (Radial + Noise):
+        - Find the center point of the U and V domains
+        - Calculate the radial distance from each grid point to the center
+        - Normalize distances and calculate a radial falloff (fading from center)
+        - Generate a random noise array and combine it with the radial falloff and amplitude
+
+3. **Sample Surface and Apply Displacement**
+    - **For** each coordinate pair in the U and V grids:
+        - Evaluate the surface to find the 3D base point
+        - Calculate the surface normal (the perpendicular direction) at that point
+        - Extract the corresponding height value from the heightmap
+        - Move point: Create a new 3D point by moving the base point along the normal vector by the height value
+
