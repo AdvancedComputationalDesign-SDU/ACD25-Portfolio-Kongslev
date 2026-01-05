@@ -37,4 +37,13 @@ A4/
     ├── agent_based.png         # Assignment brief image; Do not delete
     └── ...
 ```
----
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Pseudo-Code](#pseudo-code)
+- [Technical Explanation](#technical-explanation)
+- [Design Variations](#design-variations)
+- [Challenges and Solutions](#challenges-and-solutions)
+- [AI Acknowledgments](#ai-acknowledgments)
+- [References](#references)
+
