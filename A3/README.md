@@ -210,13 +210,13 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
 > If you vary algorithms (e.g., quad vs. tri tessellation, heightmap function swap), note that explicitly in an **Algorithm Notes** column or footnote.
 
-1. **Variation A: [Name/Description]**
+1. **Variation A: [Heightmap_type1+quad_tessellation]**
 
 
    ![Variation A](images/itteration1.jpg)
    ![Variation A](images/itteration1_quad.jpg)
 
-   *Figure 1: black empty canvas*
+   *Design variation A is working with a heightmap that is build on a sinus logic and a quad tessellation strategy*
 
 2. **Variation B: [Name/Description]**
 
