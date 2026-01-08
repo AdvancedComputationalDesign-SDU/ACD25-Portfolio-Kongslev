@@ -212,6 +212,28 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
 1. **Variation A: [Name/Description]**
 
-   ![Variation A](images/canopy.jpg)
+   ![Variation A](images/itteration1.jpg)
+   ![Variation A](images/itteration1_quad.jpg)
+
+   *Figure 1: black empty canvas*
+
+2. **Variation B: [Name/Description]**
+
+   ![Variation A](images/itteration2.jpg)
+   ![Variation A](images/intteration2_tri.jpg)
+
+   *Figure 1: black empty canvas*
+
+3. **Variation C: [Name/Description]**
+
+   ![Variation A](images/itteration3.jpg)
+   ![Variation A](images/itteration3_noise_quad.jpg)
+
+   *Figure 1: black empty canvas*
+
+4. **Variation D: [Name/Description]**
+
+   ![Variation A](images/itteration4.jpg)
+   ![Variation A](images/itteration4_quad_angle.jpg)
 
    *Figure 1: black empty canvas*
