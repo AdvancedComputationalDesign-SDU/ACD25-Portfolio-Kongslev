@@ -210,7 +210,7 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
 > If you vary algorithms (e.g., quad vs. tri tessellation, heightmap function swap), note that explicitly in an **Algorithm Notes** column or footnote.
 
-1. **Variation A: [Heightmap_type1+quad_tessellation]**
+1. **Variation A: [Heightmap type 1 and quad tessellation]**
 
 
    ![Variation A](images/itteration1.jpg)
@@ -218,23 +218,23 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
    *Design variation A is working with a heightmap that is build on a sinus logic and a quad tessellation strategy*
 
-2. **Variation B: [Name/Description]**
+2. **Variation B: [Heightmap type 1 and triangular tessellation]**
 
    ![Variation A](images/itteration2.jpg)
    ![Variation A](images/intteration2_tri.jpg)
 
-   *Figure 1: black empty canvas*
+   *Design variation B is working with a heightmap that is build on a sinus logic and a triangular tessellation strategy*
 
-3. **Variation C: [Name/Description]**
+3. **Variation C: [Heightmap type 0 and quad tessellation]**
 
    ![Variation A](images/itteration3.jpg)
    ![Variation A](images/itteration3_noise_quad.jpg)
 
-   *Figure 1: black empty canvas*
+   *Design variation C is working with a heightmap that is build on a combination of radial + noise pattern logic and a quad tessellation strategy*
 
-4. **Variation D: [Name/Description]**
+4. **Variation D: [Heightmap type 1 and Support angle]**
 
    ![Variation A](images/itteration4.jpg)
    ![Variation A](images/itteration4_quad_angle.jpg)
 
-   *Figure 1: black empty canvas*
+   *Design variation D is working with a heightmap that is build on a sinus logic and a larger angle for the supports which creates a broader branching pattern*
