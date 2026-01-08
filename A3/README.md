@@ -80,5 +80,50 @@ The pseudo-code for each module is described in detail below.
     - mesh: mesh constructed from quad faces (tesselation 1) 
     - tri_mesh: mesh constructed from triangular faces (tesselation 2)
     
-2. **Define Heightmap generation logic**
+
+2. **Define heightmap generation logic**
+    - Initialize random seed to ensure reproducibility
+    - Get Surface Domains for both U and V directions (start and end parameters)
+    - Create coordinate grids by generating evenly spaced values across the U and V domains
+    - **If** heightmap_type is 0 (Sinusoidal):
+        - Calculate height (H) using a sinewave based on U/V frequencies and amplitude
+
+    - **Else** if heightmap_type is 1 (Radial + Noise):
+        - Find the center point of the U and V domains
+        - Calculate the radial distance from each grid point to the center
+        - Normalize distances and calculate a radial falloff (fading from center)
+        - Generate a random noise array and combine it with the radial falloff and amplitude
+
+3. **Combine surface with the heightmap**
+    - **For** each coordinate pair in the U and V grids:
+        - Evaluate the surface to find the 3D base point
+        - Calculate the surface normal (the perpendicular direction) at that point
+        - Extract the corresponding height value from the heightmap
+        - Move point: Create a new 3D point by moving the base point along the normal vector by the height value
+    - Store these displaced points in a 2D list (rows and columns)
+
+4. **Generate Uniform Grid**
+    - combine the surface with evenly spaced U and V parameters
+    - Store the surface points as a flat reference grid
+
+5. **Tesselation strategy**
+    - Convert the structured grid of points into discrete geometric elements.
+    - Connect neighboring points to form a wireframe grid (edges).
+    - Group sets of four neighboring points to create quad faces (tessellation 1)
+    - split each quad into two triangles to generate a triangular tessellation (tessellation 2)
+
+6. **Move the final mesh (using offset)**
+    - Take the generated mesh and calculate the direction each part is facing
+    - Push every vertex of the mesh upwards by a specific support_height
+    - Rebuild the mesh at this new offset position.
+
+7. **Main execution: Output**
+    - Convert the data into a format Rhino can display .
+    - output: 
+        - the mesh 
+        - the triangular mesh
+        - the wireframe edges
+        - the point structure 
+
+
 ---
