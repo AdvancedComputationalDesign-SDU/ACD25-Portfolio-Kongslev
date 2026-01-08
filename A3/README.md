@@ -126,4 +126,61 @@ The pseudo-code for each module is described in detail below.
         - the point structure 
 
 
+### Support generator (tree like structure)
+
+1. **Setting up the python component**
+
+    Input:
+    - gen (int): generator, cotrole the growth
+    - len (int): length of the support
+    - angle (float): number of divisions along V direction
+    - mesh (mesh): mesh from the surface generator module
+    - offset_ratio (float): placement of the supports 
+    - base_offset (float):  
+    
+    Output:
+    - lines: support structure lines 
+ 
+1. **creating the branching (growth) logic** 
+    - define the grow using:
+        - pt = starting point
+        - V = growth direction vector
+        - len = current segment length
+        - g = current generation
+    - **if** reached the maximum number of generations (the limit):
+        - Stop the grow
+
+    - intersection with mesh: 
+        - find the closest point on the mesh 
+        - calculate the distance
+        - **if** distance to mesh < Len * 0.3 (0.3 can be changed) 
+            - stop the grow
+    
+    - grow in random directions:
+        - Create a random tilt to make the branching look organic
+        - Calculate two new paths (Branch A and Branch B) by rotating away from the main direction.
+
+    - Create the lines:
+    - Place two new points at the end of the paths
+    - Draw a line from the start to each new point
+
+2. **Repeat (Recursion)**
+    - Start the "Grow" logic again from the new points
+        - For every new step, make the length slightly shorter
+
+3. **Calculate the placement of the support**
+    - find the lowest point on the mesh bounding box 
+    - For each of the 4 support positions:
+        - Find the midpoint of the mesh.
+        - Move out toward the corners, but use an **offset ratio** to keep them inside the edges
+        - Place the start point below the canopy
+
+4. **Create the support structure**
+    - for each of the 4 calculated start positions:
+        - Step A: Draw a vertical line (the trunk) straight up.
+        - Step B: Start the Grow logic (from Step 1) from the top of that trunk
+
+5. **output to rhino**
+- output = lines (support structure)
+- connect the line output to a pipe component to visulize the structure 
 ---
