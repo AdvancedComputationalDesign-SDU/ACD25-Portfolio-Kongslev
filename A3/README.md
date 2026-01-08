@@ -182,5 +182,36 @@ The pseudo-code for each module is described in detail below.
 
 5. **output to rhino**
 - output = lines (support structure)
-- connect the line output to a pipe component to visulize the structure 
+- connect the line output to a pipe component to visulize the structure
+
 ---
+
+## Technical Explanation
+
+In this assignment, i started by creating a blank (black) RGB canvas, i choose to keep the canvas in RGB from the begining because i knew i had to use the RGB color channel later on in the assignment. i created the blank canvas using `np.zeros()`. 
+
+to create a striped pattern on the canvas i used slicing to define the stripes: `canvas[i:i+15, :]= 255`and after this creating a `for`loop to repet the pattern
+
+---
+
+## Design Variations
+
+*(Include images and descriptions of your generated design variations. For each category, provide at least three variations and discuss the differences and design decisions.)*
+
+### Parameter Tables
+*(Provide the exact parameter sets and seeds used for each design. Add or remove columns to reflect your implementation.)*
+
+| Design | amplitude | freq_u | freq_v| divU | divV | heightmap_type | seed | gen | len | angle | tessellation | 
+|-------:|----------:|-------:|------:|-----:|-----:|---------------:|-----:|----:|----:|------:|-------------:|
+| A      |10         |1.6     |type 1 | 15   | 15   |type 1          |-     |7    |9    |15     |quad          |
+| B      |10         |1.6     |type 1 | 15   | 15   |type 1          |-     |7    |9    |15     |tri           |
+| C      |-          |-       |type 0 | 15   | 15   |type 0          |29    |7    |9    |15     |quad          |
+| D      |10         |1.6     |type 1 | 15   | 15   |type 1          |-     |6    |10   |31     |quad          |
+
+> If you vary algorithms (e.g., quad vs. tri tessellation, heightmap function swap), note that explicitly in an **Algorithm Notes** column or footnote.
+
+1. **Variation A: [Name/Description]**
+
+   ![Variation A](images/canopy.jpg)
+
+   *Figure 1: black empty canvas*
