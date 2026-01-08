@@ -212,6 +212,7 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
 1. **Variation A: [Name/Description]**
 
+
    ![Variation A](images/itteration1.jpg)
    ![Variation A](images/itteration1_quad.jpg)
 
