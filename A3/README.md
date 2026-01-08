@@ -49,4 +49,37 @@ A3/
 This project explores the generation of a parametric canopy structure. The canopy surface is created as a heightmap-based mesh using NumPy. Structural supports are placed beneath the canopy to carry the surface, which functions as a roof. From these supports, branching elements are generated using a recursive growth algorithm inspired by natural tree structures. The methods for this will be explained in detail throughout the project documentation.
 ---
 
+## Pseudo-Code
+This project consist of two python moduls but has been combined for the documentation in the file: `parametric_canopy.py`
+the two modules consist of:
+
+- `surface_generator.py` — base surface generation using a NumPy heightmap.
+- `support_generator.py` — support generation using branching logic.
+
+The pseudo-code for each module is described in detail below.
+
+### Surface generator (heightmap)
+
+1. **Setting up the python component**
+
+    Input:
+    - srf (surface): Rhino surface object
+    - U (int): number of divisions along U direction
+    - V (int): number of divisions along V direction
+    - amp (float): amplitude, maximum height displacement
+    - freq_u (float): frequency of wave in U direction
+    - freq_v (float): frequency of wave in V direction
+    - heightmap_type (int): 
+        - 0 = sinusoidal 
+        - 1 = radial + noise
+    - seed (int): random seed for reproducibility
+    - support_height(float): height of the surface 
+    
+    Output:
+    - pts_tree: containing the displaced 3D points 
+    - edges: line objects representing the wireframe
+    - mesh: mesh constructed from quad faces (tesselation 1) 
+    - tri_mesh: mesh constructed from triangular faces (tesselation 2)
+    
+2. **Define Heightmap generation logic**
 ---
