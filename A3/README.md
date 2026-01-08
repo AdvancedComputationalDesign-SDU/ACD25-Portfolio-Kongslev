@@ -32,5 +32,21 @@ A3/
     ├── canopy.png              # Assignment brief image; Do not delete
     └── ...
 ```
+``
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Pseudo-Code](#pseudo-code)
+- [Technical Explanation](#technical-explanation)
+- [Design Variations](#design-variations)
+- [Challenges and Solutions](#challenges-and-solutions)
+- [AI Acknowledgments](#ai-acknowledgments)
+- [References](#references)
+
+---
+## Project Overview
+
+This project explores the generation of a parametric canopy structure. The canopy surface is created as a heightmap-based mesh using NumPy. Structural supports are placed beneath the canopy to carry the surface, which functions as a roof. From these supports, branching elements are generated using a recursive growth algorithm inspired by natural tree structures. The methods for this will be explained in detail throughout the project documentation.
+---
 
 ---

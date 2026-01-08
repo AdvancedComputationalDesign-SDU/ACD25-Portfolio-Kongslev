@@ -110,9 +110,9 @@ The pseudo-code for each module is described in detail below.
 
 4. **Generate grid edges**
     - **For** every row and column in the point grid:
-        - If there is a neighbor in the U direction:
+        - **If** there is a neighbor in the U direction:
             - Create a line (edge) between the current point and the next point in the row.
-        - If there is a neighbor in the V direction:
+        - **If** there is a neighbor in the V direction:
             - Create a line (edge) between the current point and the next point in the column.
 
 5. **Construct quad mesh (tesselation 1)**
@@ -135,3 +135,70 @@ The pseudo-code for each module is described in detail below.
     - Run the heightmap and sampling functions to generate the displaced points.
     - Convert the point list into a DataTree
     - Return the point tree, the list of edges, the quad mesh, and the triangular mesh.
+
+
+
+
+### Agent builder 
+
+1. **Setting up the python component**
+    
+    Input:
+    - mesh (mesh): Rhino surface object
+    - speed: how fast does the agent move 
+    - lifespan: how long does the agent "live" 
+    - count: amount of starting agents 
+    - reset: resetting the start position 
+    
+    output:
+    - agent_pts
+    - agent_paths
+    - agent_color
+
+### Agent Simulation (Pathfinder)
+
+1. **Setting up the python component**
+
+    Input:
+    - agents (list): List of Agent objects from the Builder
+    - mesh (mesh): The surface mesh to navigate on
+    - run (bool): Toggle to start/stop the simulation
+    - speed (float): Base movement speed for the agents
+    - lifespan (int): Maximum number of steps before reset
+    
+    Output:
+    - agent_pts: Current 3D positions of all agents
+    - agent_paths: Polyline curves showing the trail of each agent
+    - agent_color: Numerical values (step lengths) for color mapping
+
+2. **Define Agents self (Class Logic)**
+    - create an Agent with a starting position, speed, and lifespan
+    - Set initial age to zero
+    - Create a "trail" list to record every 3D position the agent visits
+
+3. **Define the movement Logic**
+    - Find the nearest corner (vertex) on the mesh to the agent's current position
+    - Identify all neighboring corners connected by a mesh edge
+    - **Pick Direction:** Select the neighbor furthest from the agent's original starting point
+    - **Slope Control:** Measure the height difference (dz) to the chosen neighbor
+    - **The Rule:** Define step size as: `Speed / (1 + dz)`
+        - Logic: Steeper hills = shorter steps (slower movement)
+    - **Move:** Update the agent's position towards the target using the calculated step size
+    - Add the new position to the "trail" list and increase agent age
+
+4. **Simulation Execution**
+    - **If** run is True:
+        - **For** each agent in the simulation:
+            - Execute the **Movement Logic** using the mesh data
+
+5. **Collect Data for Visualization**
+    - **For** each agent in the list:
+        - Store its current position for the `agent_pts` output
+        - Create a Polyline curve from its "trail" list for the `agent_paths` output
+        - **Calculate Colors:** Measure the distance between points in the trail
+        - Store these distances in `agent_color` to feed the Gradient component
+
+6. **Final Execution and Output**
+    - Run the simulation loop to update agent positions
+    - Generate curves and numerical data for the visual display
+    - Return the agent points, the path curves, and the speed data for color mapping
