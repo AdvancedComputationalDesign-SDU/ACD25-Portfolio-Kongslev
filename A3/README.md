@@ -47,6 +47,7 @@ A3/
 ## Project Overview
 
 This project explores the generation of a parametric canopy structure. The canopy surface is created as a heightmap-based mesh using NumPy. Structural supports are placed beneath the canopy to carry the surface, which functions as a roof. From these supports, branching elements are generated using a recursive growth algorithm inspired by natural tree structures. The methods for this will be explained in detail throughout the project documentation.
+
 ---
 
 ## Pseudo-Code
@@ -214,7 +215,7 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 1. **Variation A: [Heightmap type 1 and quad tessellation]**
 
 
-   ![Variation A](images/itteration1.jpg)
+   ![Variation A](images/Itteration1.jpg)
    ![Variation A](images/itteration1_quad.jpg)
 
    *Design variation A is working with a heightmap that is build on a sinus logic and a quad tessellation strategy*
