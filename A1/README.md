@@ -1,6 +1,15 @@
 
 # Assignment 1: NumPy Array Manipulation for 2D Pattern Generation
 
+---
+layout: default
+title: Project Documentation
+parent: "A1: NumPy Array Manipulation for 2D Pattern Generation"
+nav_order: 2
+nav_exclude: false
+search_exclude: false
+---
+
 ## Objective
 
 The goal of this assignment is to create a Python program using NumPy to manipulate a 2-dimensional array and transform a blank canvas into a patterned image. You are asked apply various array operations, introduce randomness, and work with RGB channels to produce full-color images.

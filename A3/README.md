@@ -88,7 +88,7 @@ The pseudo-code for each module is described in detail below.
     - **If** heightmap_type is 0 (Sinusoidal):
         - Calculate height (H) using a sinewave based on U/V frequencies and amplitude
 
-    - **Else** if heightmap_type is 1 (Radial + Noise):
+    - **Else** heightmap_type is 1 (Radial + Noise):
         - Find the center point of the U and V domains
         - Calculate the radial distance from each grid point to the center
         - Normalize distances and calculate a radial falloff (fading from center)
@@ -238,3 +238,15 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
    ![Variation A](images/itteration4_quad_angle.jpg)
 
    *Design variation D is working with a heightmap that is build on a sinus logic and a larger angle for the supports which creates a broader branching pattern*
+
+---
+
+## Challenges and Solutions
+
+### Support and canopy connection
+One of the challenges that I faced during this project was the connection between the canopy mesh and the support structure, because the branching structure kept growing through the canopy mesh.
+ 
+Solution: calculate the distance from the last branch to the canopy mesh and set a rule that if this distance is smaller than 0.3 (can be changed to a different number) then stop the recurtion/grow. This solution stil creates a small gab between the canopy mesh and the support structure, so for future development it would be nice to add some more rules to this logic.   
+future development:
+    - create a smalle connection line between the end of the branching and the canopy mesh to insure connection
+    - add a rule that if the branching is intersecting with the canopy mesh the the branching will be trimmed using the canopy mesh as a trimming object. 
