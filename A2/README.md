@@ -46,21 +46,11 @@ A2/
 ---
 ## Project Overview
 
-This project explores the generation of a parametric canopy structure. The canopy surface is created as a heightmap-based mesh using NumPy. Structural supports are placed beneath the canopy to carry the surface, which functions as a roof. From these supports, branching elements are generated using a recursive growth algorithm inspired by natural tree structures. The methods for this will be explained in detail throughout the project documentation.
+This project focuses on the generation of a parametric fractal tree using a recursive growth algorithm. Instead of a fixed structure, the tree's form is shaped by spatial influences that simulate natural growth patterns. The program uses the Shapely library to define the branch geometry as a series of connected lines. The methods for this will be explained in detail throughout the project documentation.
 
 ---
 
-## Pseudo-Code
-This project consist of two python moduls but has been combined for the documentation in the file: `parametric_canopy.py`
-the two modules consist of:
-
-- `surface_generator.py` — base surface generation using a NumPy heightmap.
-- `support_generator.py` — support generation using branching logic.
-
-The pseudo-code for each module is described in detail below.
-
-
-### Pseudocode for Fractal Generator
+## Pseudocode for Fractal Generator
 
 1. **Import the necessary libraries**
    - math, matplotlib, Shapely (LineString), and random.
@@ -98,7 +88,7 @@ The pseudo-code for each module is described in detail below.
 
        - **Add Controlled Randomness**:
          - Apply `random_noise` to the angle to make it look organic.
-         
+
        - **Recursive branching Calls**:
          - `generate_fractal(end_point, angle + angle_change + noise, new_length, next_depth, ...)`
          - `generate_fractal(end_point, angle - angle_change + noise, new_length, next_depth, ...)`
@@ -122,9 +112,9 @@ The pseudo-code for each module is described in detail below.
 
 ## Technical Explanation
 
-In this assignment, i started by creating a blank (black) RGB canvas, i choose to keep the canvas in RGB from the begining because i knew i had to use the RGB color channel later on in the assignment. i created the blank canvas using `np.zeros()`. 
+This project uses a recursive algorithm to generate a fractal tree made of Shapely LineStrings. The structure is built by calculating branch endpoints with trigonometry, where each new branch scales down in length to create a natural tapering effect.
 
-to create a striped pattern on the canvas i used slicing to define the stripes: `canvas[i:i+15, :]= 255`and after this creating a `for`loop to repet the pattern
+To meet the requirements for spatial influences, I implemented an Attractor Point that pulls the branches in a specific direction. At each recursion level, the code finds the angle to this point and steers the growth towards it. I also added Controlled Randomness by injecting small, random variations into the branch angles to give the tree a more organic look. For the final visualization, I used Appearance Mapping to link the line thickness to the recursion depth, ensuring that the trunk remains thick while the outer branches become progressively thinner.
 
 ---
 
