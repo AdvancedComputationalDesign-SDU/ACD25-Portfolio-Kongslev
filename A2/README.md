@@ -11,7 +11,6 @@ search_exclude: false
 
 [View on GitHub]({{ site.github.repository_url }})
 
-![Example Fractal](images/branching.png)
 
 ## Objective
 
@@ -104,10 +103,8 @@ This project focuses on the generation of a parametric fractal tree using a recu
 
 5. **Visualization**
    - Collect all the LineString shapes generated.
-   - **Appearance Mapping**: Map the line width to the `depth` so branches get thinner as they grow.
+   - **Hierarchical Scaling**: Map the line width to the `depth` so branches get thinner as they grow.
    - Use Matplotlib to plot the lines and the attractor point.
----
-
 ---
 
 ## Technical Explanation
@@ -161,3 +158,24 @@ To demonstrate the flexibility of the code, I have generated four distinct itera
    ![Variation A](images/output_4.png)
 
    *this version is a very dense and more complex structure. I increased the recursion depth and kept the branches long to create a more dense branching structure that still crawls toward the attractor point.*
+
+---
+## Challenges and Solutions
+
+### Controlling the growth direction
+One of the main challenges was getting the tree to grow toward a specific point instead of spreading out randomly. I solved this by calculating the angle toward an “attractor” and gradually adjusting the direction of each branch. This made it possible to shape the tree intentionally, for example to create a wind-swept look.
+
+### Visual clarity
+As the number of branches increased, the image quickly became cluttered and hard to read. To improve clarity, I used appearance hierarchical Scaling to gradually reduce the thickness of branches the further they are from the trunk. This creates a clear visual hierarchy and results in a much cleaner final image.
+
+---
+## AI Acknowledgments
+
+
+---
+
+## References
+
+- **Shapely Manual**: [https://shapely.readthedocs.io/en/stable/manual.html](https://shapely.readthedocs.io/en/stable/manual.html)
+- **Matplotlib Pyplot Tutorial**: [https://matplotlib.org/stable/tutorials/introductory/pyplot.html](https://matplotlib.org/stable/tutorials/introductory/pyplot.html)
+- **fractals**: [https://natureofcode.com/fractals/] (https://natureofcode.com/fractals/)
