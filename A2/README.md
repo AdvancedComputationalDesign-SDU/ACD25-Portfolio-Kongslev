@@ -120,10 +120,10 @@ To meet the requirements for spatial influences, I implemented an Attractor Poin
 
 ## Design Variations
 
-*(Include images and descriptions of your generated design variations. For each category, provide at least three variations and discuss the differences and design decisions.)*
+To demonstrate the flexibility of the code, I have generated four distinct iterations by adjusting parameters such as the attractor’s position, steering strength, and branching angles.
 
 ### Parameter Tables
-*(Provide the exact parameter sets and seeds used for each design. Add or remove columns to reflect your implementation.)*
+*(The following table outlines the specific parameters used for each iteration)*
 
 | Design | attractorpoint | length | max depth| angle | scaling factor | strength | 
 |-------:|---------------:|-------:|---------:|------:|---------------:|---------:|
@@ -132,7 +132,6 @@ To meet the requirements for spatial influences, I implemented an Attractor Poin
 | C      |100,100         |60      |9         | 90    | 0.55           |0.1       |
 | D      |150,200         |30      |12        |25     |0.82            |0.15      |
 
-> If you vary algorithms (e.g., quad vs. tri tessellation, heightmap function swap), note that explicitly in an **Algorithm Notes** column or footnote.
 
 1. **Variation A: [Strong steering and narrow angles]**
 
