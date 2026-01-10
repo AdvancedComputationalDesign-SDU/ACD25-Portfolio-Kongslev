@@ -50,8 +50,8 @@ This project focuses on the generation of a parametric fractal tree using a recu
 
 ---
 
-## Pseudocode for Fractal Generator
-
+## Pseudo-code
+### Pseudocode for Fractal Generator
 1. **Import the necessary libraries**
    - math, matplotlib, Shapely (LineString), and random.
 
