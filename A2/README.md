@@ -59,9 +59,63 @@ the two modules consist of:
 
 The pseudo-code for each module is described in detail below.
 
-### Surface generator (heightmap)
 
-1. **Setting up the python component**
+### Pseudocode for Fractal Generator
+
+1. **Import the necessary libraries**
+   - math, matplotlib, Shapely (LineString), and random.
+
+2. **Generating the fractal `generate_fractal(start_point, angle, length, depth, max_depth, angle_change, length_scaling_factor)`**
+   
+   - **Inputs**
+     - `start_point`: starting coordinate for the branch (x,y)
+     - `angle`: direction of the branch growth
+     - `length`: length of the branch segment
+     - `depth`: Int, current recursion depth
+     - `max_depth`: Int, maximum recursion depth
+     - `angle_change`: the change in angle at each recursion
+     - `length_scaling_factor`: scaling factor for the length of the next branch
+    
+   - **Process**
+     - **if** `depth > max_depth`:
+       - **return**
+     - **Else**:
+       - **Calculate Spatial Influence**:
+         - Find the direction to the `attractor_point` using `atan2`.
+         - Adjust the current `angle` slightly toward the attractor.
+
+       - **Calculate `end_point` using trigonometry**:
+         - `end_x = start_x + length * cos(radians(angle))`
+         - `end_y = start_y + length * sin(radians(angle))`
+
+       - **Creating branching line**:
+         - Create a Shapely **LineString** from `start_point` to `end_point`.
+         - Store the line and `depth` for visualization.
+
+       - **Calculate new length and depth**:
+         - `new_length = length * length_scaling_factor`
+         - `next_depth = depth + 1`
+
+       - **Add Controlled Randomness**:
+         - Apply `random_noise` to the angle to make it look organic.
+         
+       - **Recursive branching Calls**:
+         - `generate_fractal(end_point, angle + angle_change + noise, new_length, next_depth, ...)`
+         - `generate_fractal(end_point, angle - angle_change + noise, new_length, next_depth, ...)`
+     - **Return** (After recursive calls).
+
+3. **Initialize Parameters**
+   - Set `start_point`, `initial_angle`, `initial_length`, `max_depth`, `angle_change`, `length_scaling_factor`.
+   - Set `attractor_point` and `steering_strength`.
+   - Change the values to get different outputs (Design A, B, C, D).
+
+4. **Call `generate_fractal` Function**
+   - Begin the fractal generation by calling the function with the initial parameters.
+
+5. **Visualization**
+   - Collect all the LineString shapes generated.
+   - **Appearance Mapping**: Map the line width to the `depth` so branches get thinner as they grow.
+   - Use Matplotlib to plot the lines and the attractor point.
 ---
 
 ---
