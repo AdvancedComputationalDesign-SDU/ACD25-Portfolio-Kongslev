@@ -50,9 +50,7 @@ A4/
 ---
 ## Project Overview
 
-This project explores Agent-Based Modeling for Surface Panelization. The surface is generated as a heightmap-based mesh, where agents are placed randomly. The agents move from point to point across the surface with the goal of reaching the point farthest from their starting position. During their movement, the agents follow two main rules: they move more slowly on steep areas and faster on flat areas.
-
-The agents' movement is recorded as trajectories, which can be used as a basis for panelization. The result is a non-uniform structure that reflects the agents' local decisions and adapts to the geometry of the surface. This will be explored in more detail throughout the documentation of the project.
+This project explores Agent-Based Modeling for Surface Panelization. The surface is generated as a heightmap-based surface, where agents are placed randomly. The movement of the agents is constrained to the surface geometry which forces them to adapt their trajectories to both the curvature of the terrain and the positions of their neighbors. The result is a self-organizing network that reflects the interaction between agents behavior and the surface geometry. This will be explored in more detail throughout the documentation of the project.
 
 ---
 
