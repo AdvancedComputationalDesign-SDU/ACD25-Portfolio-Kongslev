@@ -68,135 +68,152 @@ The pseudo-code for each module is described in detail below.
 1. **Setting up the python component**
 
     Input:
-    - srf (surface): Rhino surface object
+    - surface (surface): Rhino surface object
     - U (int): number of divisions along U direction
     - V (int): number of divisions along V direction
-    - amp (float): amplitude, maximum height displacement
     - freq_u (float): frequency of wave in U direction
     - freq_v (float): frequency of wave in V direction
-    - heightmap_type (int): 
-        - 0 = sinusoidal 
-        - 1 = radial + noise
-    - seed (int): random seed for reproducibility
+    - height (float): height of the waves
     
     Output:
-    - pts_tree: containing the displaced 3D points 
-    - edges: line objects representing the wireframe
-    - mesh: mesh constructed from quad faces (tesselation 1) 
-    - tri_mesh: mesh constructed from triangular faces (tesselation 2)
-    
-2. **Define Heightmap generation logic**
-    - Initialize random seed to ensure reproducibility
-    - Get Surface Domains for both U and V directions (start and end parameters)
-    - Create coordinate grids by generating evenly spaced values across the U and V domains
-    - **If** heightmap_type is 0 (Sinusoidal):
-        - Calculate height (H) using a sinewave based on U/V frequencies and amplitude
+    - srf: 
 
-    - **Else** if heightmap_type is 1 (Radial + Noise):
-        - Find the center point of the U and V domains
-        - Calculate the radial distance from each grid point to the center
-        - Normalize distances and calculate a radial falloff (fading from center)
-        - Generate a random noise array and combine it with the radial falloff and amplitude
+1. **Import Libraries**
+   - import relevent libraries
 
-3. **Sample Surface and apply displacement**
-    - **For** each coordinate pair in the U and V grids:
-        - Evaluate the surface to find the 3D base point
-        - Calculate the surface normal (the perpendicular direction) at that point
-        - Extract the corresponding height value from the heightmap
-        - Move point: Create a new 3D point by moving the base point along the normal vector by the height value
-    - Store these displaced points in a 2D list (rows and columns).
+2. **Generate Heightmap `generate_heightmap(shape, amplitude, freq_x, freq_y)`**
+   - **Process:**
+     - Create `x` and `y` linspace arrays
+     - Make meshgrid `X, Y`
+     - Compute `heightmap = sin(2π * freq_y * Y) * cos(2π * freq_x * X) * amplitude`
+   - **Output:** 2D array of heights
 
-4. **Generate grid edges**
-    - **For** every row and column in the point grid:
-        - **If** there is a neighbor in the U direction:
-            - Create a line (edge) between the current point and the next point in the row.
-        - **If** there is a neighbor in the V direction:
-            - Create a line (edge) between the current point and the next point in the column.
+3. **Sample Surface Uniformly `sample_surface_uniform(surface, shape)`**
+   - **Process:**
+     - Get U/V domains of surface
+     - Create `u_vals` and `v_vals` linspace
+     - Evaluate points at each `(u,v)` → store in `point_grid`
+   - **Output:** 2D array of Point3d objects
 
-5. **Construct quad mesh (tesselation 1)**
-    - Flatten the 2D point grid into a 1D list of vertices.
-    - **For** each cell in the grid (excluding the last row/column):
-        - Identify the four corner indices (A, B, C, D) of the current cell.
-        - Define a quad face using these four indices.
-    - Assemble the mesh using all vertices and quad faces.
+4. **Manipulate Points with Heightmap `manipulate_point_grid(heightmap, point_grid)`**
+   - **Process:**
+     - For each point, add `heightmap[i,j]` to Z-coordinate
+     - Store in `manipulated_grid`
+   - **Output:** Updated 2D array of points
 
-6. **Construct triangulated mesh (tesselation 2)**
-    - Use the same flattened list of vertices.
-    - **For** each cell in the grid:
-        - Identify the four corner indices (A, B, C, D).
-    - Split the quad into two triangles:
-        - Triangle 1: Connect indices A, B, and C.
-        - Triangle 2: Connect indices A, C, and D.
-    - Assemble the mesh using all vertices and the resulting triangular faces.
+5. **Build Surface `build_surface(point_grid, deg_u, deg_v)`**
+   - **Process:**
+     - Flatten `point_grid` to list
+     - Create NURBS surface through points using degrees `deg_u` and `deg_v`
+    - **Output:** New NURBS surface
 
-7. **Final Execution and Output**
-    - Run the heightmap and sampling functions to generate the displaced points.
-    - Convert the point list into a DataTree
-    - Return the point tree, the list of edges, the quad mesh, and the triangular mesh.
+6. **Main**
+   - Set `shape = (U, V)`
+   - `heightmap = generate_heightmap(...)`
+   - `pt_grid = sample_surface_uniform(...)`
+   - `manip_pt_grid = manipulate_point_grid(...)`
+   - `srf = build_surface(...)`
+- **Output:** surface: final manipulated surface
+
+   
+### Agent builder
+
+1. **Import Libraries**
+   - import relevent libraries
+
+2. **Define Boid Class**
+
+   - **Attributes**
+     - `position` → current 3D position on the surface
+     - `velocity` → small random 3D vector
+     - `done` → to stop movement if needed
+
+   - **Initialize Boid `__init__(position)`**
+     - Set initial `position`
+     - give a `velocity`
+     - Set `done = False`
+
+3. **Distance and Neighbor Handling**
+   - **Distance Function `dist(other)`**
+     - Calculate the straight-line distance to another boid
+
+   - **Sort Neighbors `sorted_neighbors(others)`**
+     - Return all other boids sorted by distance
+
+   - **Find Neighbors in Radius `_neighbors_in_radius(others, radius)`**
+     - Loop through sorted neighbors
+     - Collect boids within `radius`
+     - Stop checking once distance exceeds radius
+
+4. **Surface Constraint**
+   - **Constrain to Surface `_constrain_to_surface(surface)`**
+     - Find closest UV point on surface
+     - Evaluate surface at that UV point
+     - Update boid position to be exactly on surface
+
+5. **Steering Forces**
+   - **Separation Force `_separation_force(neighbors)`**
+     - Push boid away from close neighbors
+     - Stronger force when distance is small
+
+6. **Combine Steering Behaviors `steer(others, radius, weights...)`**
+   - Find neighbors within `radius`
+   - generate:
+     - Separation
+   - Apply weights to each force
+   - Add forces to the velocity
+   - Limit velocity to `max_velocity`
+
+7. **Update Boid Position `update(surface)`**
+   - Add velocity to position
+   - Project updated position back onto the surface
+
+8. **Build Initial Agents `build_agents(n_agents, surface, seed)`**
+   - random seed for reproducibility
+   - Get surface U/V domains
+   - For each boid/agents:
+     - Pick random `(u, v)` on surface
+     - Evaluate surface point
+     - Create new Boid at that position
+   - Return list of boids
+
+9. **Grasshopper Script Execution**
+   - **RunScript(N, reset, start_surface)**
+     - If `reset` or no agents exist:
+       - Create new agents on surface
+     - For each agent:
+       - Apply steering behavior
+       - Update position on surface
+     - Store agents for next iteration
+- **Output:** agents
+
+
+### Agent simulator
+
+1. **Import Libraries**
+   - import relevent libraries
+
+2. **Access the agents**
+   - Retrieve the list of agents from the agent component:
+     - `boids = boids_component.agents`
+
+3. **Update the Simulation**
+   - **For** each boid in `boids`:
+     - Apply steering behavior using current parameters:
+       - Neighborhood radius
+       - Separation
+     - Update the boid’s position
+     - Project the boid back onto the surface
+
+4. **Collect Output Data**
+   - Create a list of boid positions:
+     - `positions = [b.position for b in boids]`
+   - Create a list of boid velocity vectors:
+     - `vectors = [b.velocity for b in boids]`
+
+- **Output:** Positions and vectors
+
+ 
 
 
 
-
-### Agent builder 
-
-1. **Setting up the python component**
-    
-    Input:
-    - mesh (mesh): Rhino surface object
-    - speed: how fast does the agent move 
-    - lifespan: how long does the agent "live" 
-    - count: amount of starting agents 
-    - reset: resetting the start position 
-    
-    output:
-    - agent_pts
-    - agent_paths
-    - agent_color
-
-### Agent Simulation (Pathfinder)
-
-1. **Setting up the python component**
-
-    Input:
-    - agents (list): List of Agent objects from the Builder
-    - mesh (mesh): The surface mesh to navigate on
-    - run (bool): Toggle to start/stop the simulation
-    - speed (float): Base movement speed for the agents
-    - lifespan (int): Maximum number of steps before reset
-    
-    Output:
-    - agent_pts: Current 3D positions of all agents
-    - agent_paths: Polyline curves showing the trail of each agent
-    - agent_color: Numerical values (step lengths) for color mapping
-
-2. **Define Agents self (Class Logic)**
-    - create an Agent with a starting position, speed, and lifespan
-    - Set initial age to zero
-    - Create a "trail" list to record every 3D position the agent visits
-
-3. **Define the movement Logic**
-    - Find the nearest corner (vertex) on the mesh to the agent's current position
-    - Identify all neighboring corners connected by a mesh edge
-    - **Pick Direction:** Select the neighbor furthest from the agent's original starting point
-    - **Slope Control:** Measure the height difference (dz) to the chosen neighbor
-    - **The Rule:** Define step size as: `Speed / (1 + dz)`
-        - Logic: Steeper hills = shorter steps (slower movement)
-    - **Move:** Update the agent's position towards the target using the calculated step size
-    - Add the new position to the "trail" list and increase agent age
-
-4. **Simulation Execution**
-    - **If** run is True:
-        - **For** each agent in the simulation:
-            - Execute the **Movement Logic** using the mesh data
-
-5. **Collect Data for Visualization**
-    - **For** each agent in the list:
-        - Store its current position for the `agent_pts` output
-        - Create a Polyline curve from its "trail" list for the `agent_paths` output
-        - **Calculate Colors:** Measure the distance between points in the trail
-        - Store these distances in `agent_color` to feed the Gradient component
-
-6. **Final Execution and Output**
-    - Run the simulation loop to update agent positions
-    - Generate curves and numerical data for the visual display
-    - Return the agent points, the path curves, and the speed data for color mapping
