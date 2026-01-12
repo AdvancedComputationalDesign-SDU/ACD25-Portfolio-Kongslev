@@ -297,7 +297,7 @@ You are expected to produce at least **three** visually distinct configurations.
 
 **Parameters Changed**: `n_agents=80`, `vision_r=4.0`, `sep=2.0`, `freq_x/y=1.0`, `height=22`
 
-**Description**: With a low agent count and minimal separation force, the surface geometry dominates the movement. Because the agents don't compete for space, they naturally gravitate toward the large valleys of the waves. This results in a open structure.
+**Description**: With a low agent count and minimal separation force, the surface geometry dominates the movement. Because the agents don't compete for space, This results in a more open Panelization .
 
 ![Variation A](images/output_1.jpg)
 ![Variation A](images/output_1.1.jpg)
@@ -321,7 +321,7 @@ You are expected to produce at least **three** visually distinct configurations.
 
 - **Parameters Changed**: `n_agents=200`, `vision_r=2.5`, `sep=4.0`, `freq_x/y=1.0`, `height=22` 
 
-- **Description**: This iteration increases both the agent density and their personal space. By raising the separation force, agents are forced to spread out across the curved faces rather than huddling in the lowest points. This creates a more systematic and even panelization that covers the surface effectively, showing a clear balance between the terrain's shape and the agents' social distance.
+- **Description**: This iteration increases both the agent density and their personal space. By raising the separation force, agents are forced to spread a bit more out across the surface. This creates a more systematic and even panelization that covers the surface effectively.
 
 ![Variation B](images/output_2.jpg)
 ![Variation B](images/output_2.1.jpg)
@@ -335,8 +335,7 @@ You are expected to produce at least **three** visually distinct configurations.
 
 - **Parameters Changed**: `n_agents=200`, `vision_r=1.5`, `sep=10.0`, `freq_x/y=2.1`, `height=15`
 
-- **Description**: By making the surface more turbulent with a higher frequency and setting separation to the maximum, the system becomes much more reactive. Agents only sense their immediate neighbors but push away from them with great force. This creates a more detailed and and dense panelization.
-
+- **Description**: This iteration shows a more complex and detailed network. The increased surface frequency creates numerous small peaks and valleys, to which the agents respond by forming a fine-grained mesh. Maximum separation force pushes the agents into fixed positions, resulting in a denser structure that represents the geometric changes in the terrain
 
 ![Variation C](images/output_3.jpg)
 ![Variation C](images/output_3.1.jpg)
@@ -346,4 +345,4 @@ You are expected to produce at least **three** visually distinct configurations.
 
 
 ```
-
+inspiration fra oz scripts fra undervisningen som jeg har bygget videre på 
