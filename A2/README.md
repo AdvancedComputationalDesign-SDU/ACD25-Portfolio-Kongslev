@@ -141,21 +141,21 @@ To demonstrate the flexibility of the code, I have generated four distinct itera
 2. **Variation B: [Large branch angles and moderate scaling]**
 
 
-   ![Variation A](images/output_2.png)
+   ![Variation B](images/output_2.png)
 
    *This version looks like a wide and symatric tree. I used a large angle change to make it spread out horizontally. The attractor is placed directly above to keep the growth symmetrical and upright.*
 
 3. **Variation C: [90-degree angles]**
 
 
-   ![Variation A](images/output_3.png)
+   ![Variation C](images/output_3.png)
 
    *This version is more sharp and abstract. By setting the angle to exactly 90 degrees, the tree turns into a more mathematical pattern than a natural one.*
 
 4. **Variation D: [High depth and long branches]**
 
 
-   ![Variation A](images/output_4.png)
+   ![Variation D](images/output_4.png)
 
    *this version is a very dense and more complex structure. I increased the recursion depth and kept the branches long to create a more dense branching structure that still crawls toward the attractor point.*
 
@@ -170,7 +170,15 @@ As the number of branches increased, the image quickly became cluttered and hard
 
 ---
 ## AI Acknowledgments
+AI tools were used during this project, in particular Gemini (Google) and ChatGPT (OpenAI). These tools were primarily used to help understand code-related calculations, support the overall structure of the project, and assist with debugging when error messages occurred.
 
+The following are examples of how AI was used during the development process:
+
+*Describe in detail what happens in this calculation and explain it in a way that is understandable for a master’s student taking their first coding course*
+
+*i wpold like to color the structure in green, how can i implement it in my code*
+
+*I am receiving this error — can you explain why it occurs and how I can fix it so the code runs correctly?*
 
 ---
 
