@@ -1,16 +1,15 @@
-
-# Assignment 1: NumPy Array Manipulation for 2D Pattern Generation
-
 ---
-
 layout: default
 title: Project Documentation
 parent: "A1: NumPy Array Manipulation for 2D Pattern Generation"
 nav_order: 2
 nav_exclude: false
 search_exclude: false
-
 ---
+
+# Assignment 1: NumPy Array Manipulation for 2D Pattern Generation
+
+
 
 # Documentation for Assignment 1
 
