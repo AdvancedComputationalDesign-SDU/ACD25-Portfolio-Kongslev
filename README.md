@@ -86,10 +86,10 @@ Use the template below to draft your homepage, replacing the entire content of t
 - **Delete the guide sections above** for a clean portfolio homepage.
 
 ```md
-# <Your Name> — ACD-E25 Portfolio
+# Freja Kongslev — ACD-E25 Portfolio
 
 ## Overview
-This portfolio documents four computational design studies developed for Advanced Computational Design. Across the series, I investigate <theme> through <methods/tools>, iterating through prototypes, parameter sweeps, and visual evaluation.
+This portfolio documents four computational design studies developed for Advanced Computational Design. Across the series, I investigate how to use coding for parametric design through working with 2D patterns, Fractals, 3D geometrys and agent based modeling, iterating through prototypes, parameter sweeps, and visual evaluation.
 
 ## Assignments
 
@@ -105,12 +105,12 @@ In A3, I design a canopy system driven by a heightmap/field and implemented in G
 ### A4: Agent-Based Modeling for Surface Panelization
 In A4, I use agent behaviors to sample and rationalize a surface into a panelized system. I define sensing rules and constraints (e.g., proximity, alignment, boundaries) and iterate on behaviors to balance local decisions with global coherence.
 
-## Highlights (optional)
-- **Technique:** <one technique you used across assignments>
-- **Best result:** <one outcome + where it appears (A#)>
-- **Next step:** <one concrete extension you would test next>
+## Highlights
+- **Technique:** creating rules the system would have to follow
+- **Best result:** The Parametric Structural Canopy (A3)
+- **Next step:** create more advanced agents
 
-## Contact (optional)
-- GitHub: <link>
-- Email: <email>
+## Contact
+- GitHub: <https://github.com/AdvancedComputationalDesign-SDU/ACD25-Portfolio-Kongslev.git>
+- Email: <frko20@student.sdu.dk>
 ```
