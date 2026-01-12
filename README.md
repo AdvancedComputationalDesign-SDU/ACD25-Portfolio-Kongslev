@@ -25,5 +25,6 @@ In A4, I use agent behaviors to sample and rationalize a surface into a panelize
 
 ## Contact
 - GitHub: <https://github.com/AdvancedComputationalDesign-SDU/ACD25-Portfolio-Kongslev.git>
-- Email: <frko20@student.sdu.dk>
-```
+- Email: <frkon20@student.sdu.dk>
+
+
