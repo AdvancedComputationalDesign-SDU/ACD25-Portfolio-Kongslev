@@ -9,12 +9,6 @@ search_exclude: false
 
 # Assignment 1: NumPy Array Manipulation for 2D Pattern Generation
 
-
-
-# Documentation for Assignment 1
-
-This is the documentation of assignment 1. where the focus was on using NumPy Array Manipulation for 2D Pattern Generation
-
 ## Table of Contents
 
 - [Pseudo-Code](#pseudo-code)
