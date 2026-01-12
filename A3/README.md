@@ -189,19 +189,28 @@ The pseudo-code for each module is described in detail below.
 ---
 
 ## Technical Explanation
+In this assignment i combined a heightmap-based surface with a recursive branching system to create a responsive architectural canopy.
 
-In this assignment, i started by creating a blank (black) RGB canvas, i choose to keep the canvas in RGB from the begining because i knew i had to use the RGB color channel later on in the assignment. i created the blank canvas using `np.zeros()`. 
+**Surface Generation**
+The canopy starts as a grid of points displaced along their surface normals. I used NumPy to calculate these displacements, allowing the user to switch between a structured sinusoidal wave and a radial noise pattern. To turn these points into geometry, the script uses a dual-tessellation approach which generating both a wireframe and two types of meshes (quads and triangles).
 
-to create a striped pattern on the canvas i used slicing to define the stripes: `canvas[i:i+15, :]= 255`and after this creating a `for`loop to repet the pattern
+**Branching Supports**
+The support structure is built using a recursive algorithm that mimics tree growth. Starting from four base points, the code draws a vertical trunk that then splits into smaller branches. I controlled this growth using three main rules:
+- Rotation: Each new generation of branches rotates outward at a set angle to create a wide crown.
+
+- Collision Detection: The branches sense the overhead mesh so if a branch gets too close to the canopy, the recursion stops to prevent it from growing through the surface.
+
+- Random Variation: I added small, random tilts to the growth vectors to break the symmetry and give the supports a more tree like look.
+
+The result from this is a system where the supports automatically adapt their height and form to fit the specific canopy roof.
 
 ---
 
 ## Design Variations
-
-*(Include images and descriptions of your generated design variations. For each category, provide at least three variations and discuss the differences and design decisions.)*
+To demonstrate the flexibility of the code, I have generated 4 different iterations by adjusting the key parameters 
 
 ### Parameter Tables
-*(Provide the exact parameter sets and seeds used for each design. Add or remove columns to reflect your implementation.)*
+*(The following table outlines the specific parameters used for each iteration)*
 
 | Design | amplitude | freq_u | freq_v| divU | divV | heightmap_type | seed | gen | len | angle | tessellation | 
 |-------:|----------:|-------:|------:|-----:|-----:|---------------:|-----:|----:|----:|------:|-------------:|
@@ -210,7 +219,7 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 | C      |-          |-       |type 0 | 15   | 15   |type 0          |29    |7    |9    |15     |quad          |
 | D      |10         |1.6     |type 1 | 15   | 15   |type 1          |-     |6    |10   |31     |quad          |
 
-> If you vary algorithms (e.g., quad vs. tri tessellation, heightmap function swap), note that explicitly in an **Algorithm Notes** column or footnote.
+
 
 1. **Variation A: [Heightmap type 1 and quad tessellation]**
 
@@ -245,10 +254,39 @@ to create a striped pattern on the canvas i used slicing to define the stripes: 
 
 ## Challenges and Solutions
 
-### Support and canopy connection
+**Supports and canopy connection**
 One of the challenges that I faced during this project was the connection between the canopy mesh and the support structure, because the branching structure kept growing through the canopy mesh.
- 
-Solution: calculate the distance from the last branch to the canopy mesh and set a rule that if this distance is smaller than 0.3 (can be changed to a different number) then stop the recurtion/grow. This solution stil creates a small gab between the canopy mesh and the support structure, so for future development it would be nice to add some more rules to this logic.   
+ Solution: calculate the distance from the last branch to the canopy mesh and set a rule that if this distance is smaller than 0.3 (can be changed to a different number) then stop the recurtion/grow. This solution stil creates a small gab between the canopy mesh and the support structure, so for future development it would be nice to add some more rules to this logic.   
 future development:
     - create a smalle connection line between the end of the branching and the canopy mesh to insure connection
-    - add a rule that if the branching is intersecting with the canopy mesh the the branching will be trimmed using the canopy mesh as a trimming object. 
+    - add a rule that if the branching is intersecting with the canopy mesh the the branching will be trimmed using the canopy mesh as a trimming object.
+
+**Placing supports under the canopy**
+Another issue was ensuring the supports stayed underneath the canopy rather than growing through it. I solved this by offsetting the base surface, which allowed me to move the canopy up and down. At the same time, I modified the code so the starting points for the supports were detached from the surface itself, ensuring the structure always grows from the ground up
+
+**Spacing between supports**
+One challenge I faced was determining how to position the supports beneath the canopy. I wanted to create a flexible system where I could easily control the spacing between them. I solved this by updating the code to allow for adding or removing supports dynamically. I also integrated a slider in Grasshopper that controls an offset from the center, making it possible to precisely manage how close to the middle or the edges the supports are placed. 
+
+---
+## AI Acknowledgments
+AI tools were used during this project, in particular Gemini (Google) and ChatGPT (OpenAI). These tools were primarily used to help understand code-related calculations, support the overall structure of the project, and assist with debugging when error messages occurred.
+
+The following are examples of how AI was used during the development process:
+
+*Describe in detail what happens in this calculation and explain it in a way that is understandable for a master’s student taking their first coding course*
+
+*i get a error on only one of my components can you help fixing it*
+
+*I am receiving this error — can you explain why it occurs and how I can fix it so the code runs correctly?*
+
+*i defined all the functions i want and how they should work can you help with setting up the mathematic calculations*
+
+---
+
+## References
+- **Documents and files from the course** 
+The canopy for this project is inspired by the script provided during the course. The same underlying logic has been extended and adapted for this work. For this reason, I would like to credit my instructor, Özgüç Bertug Çapunaman, as a reference for this project.
+
+- **Rhino documentation**: [https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature](https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature)
+
+- **Branching tutorial**: [https://www.youtube.com/watch?v=wV6W69b-l7w](https://www.youtube.com/watch?v=wV6W69b-l7w)
