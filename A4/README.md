@@ -270,7 +270,45 @@ This modular setup makes the system easier to control, test, and extend
 
 ---
 
-klklkl
+## Design Variations
+
+*(Include images and descriptions of your generated design variations.)*
+
+You are expected to produce at least **three** visually distinct configurations. For each variation, clearly indicate:
+
+- Which signals are active and how they are weighted.
+- Key parameters (e.g., step size, thresholds, branching depth, number of agents).
+- How the resulting panelization differs (density, orientation, topology, regularity, etc.).
+
+### Parameter and Signal Table (Example)
+
+```markdown
+| Design | Signals Used         | Key Parameters                      | Surface parameters               |
+|--------|----------------------|-------------------------------------|----------------------------------|
+| A      | surface + seperation | n_agents=80, vision_r=4.0, sep=2.0  |freq_x=1.0, freq_y=1.0, height=22 |
+| B      | surface + seperation | n_agents=200, vision_r=2.5, sep=4.0 |freq_x=1.0, freq_y=1.0, height=22 |
+| C      | surface + seperation | | n_agents=150, spawn_thresh=0.5, attractor_radius=5.0    |
+```
+
+### Variation A: [Name/Description]
+
+![Variation A](images/output_1.jpg)
+![Variation A](images/output_1.1.jpg)
+![Variation A](images/output_1.2.jpg)
+![Variation A](images/output_1.3.jpg)
+![Variation A](images/output_1.4.jpg)
+
+- **Signals Used**: e.g., curvature + slope
+- **Parameters Changed**: list the main parameters and their values.
+- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
+
+### Variation B: [Name/Description]
+
+![Variation B](images/output_2.jpg)
+![Variation B](images/output_2.1.jpg)
 
 
+- **Signals Used**: e.g., curvature + slope
+- **Parameters Changed**: list the main parameters and their values.
+- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
 
