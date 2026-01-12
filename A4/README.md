@@ -11,7 +11,6 @@ search_exclude: false
 
 [View on GitHub]({{ site.github.repository_url }})
 
-![Example Structural Panelization](images/agent_based.jpg)
 
 ## Objective
 
@@ -271,18 +270,11 @@ This modular setup makes the system easier to control, test, and extend
 ---
 
 ## Design Variations
+To demonstrate the flexibility of the code, I have generated 3 different iterations by adjusting the key parameters 
 
-*(Include images and descriptions of your generated design variations.)*
+### Parameter and Signal Table
 
-You are expected to produce at least **three** visually distinct configurations. For each variation, clearly indicate:
-
-- Which signals are active and how they are weighted.
-- Key parameters (e.g., step size, thresholds, branching depth, number of agents).
-- How the resulting panelization differs (density, orientation, topology, regularity, etc.).
-
-### Parameter and Signal Table (Example)
-
-
+*(The following table outlines the specific parameters used for each iteration)*
 
 | Design | Signals Used          | Key Parameters                        | Surface parameters                |
 |-------:|----------------------:|--------------------------------------:|----------------------------------:|
@@ -344,5 +336,43 @@ You are expected to produce at least **three** visually distinct configurations.
 *images shows how the agents movement can be used for Panelization*
 
 
-```
-inspiration fra oz scripts fra undervisningen som jeg har bygget videre på 
+---
+
+## Challenges and Solutions
+
+### NURB surface instead of mesh 
+At first, I planned to reuse the mesh from Assignment 3 as the base surface. However, this caused the agents to read the surface incorrectly, and the file quickly became too heavy for my computer to handle. To solve this, I created a new component that generates a NURBS surface instead, which resolved the issues.
+
+### Performance with Many Agents
+As the number of agents increases, the separation calculation became bigger, since each agent needs to check its distance to every other agent in each simulation step. the solution to this was to optimized the logic by introducing a local vision radius. By limiting each agent’s “field of view” and only calculating forces from nearby neighbors, the simulation could take in more agents.
+
+### RecursionError
+The simulation would suddenly stop after a few steps and fail with a RecursionError. This happened because Grasshopper continuously recomputes the script to advance the simulation, and over time this repeated execution exceeds Python’s recursion limit. i didn't really find a soultion for this because i couldnt get the `sys.setrecursionlimit(2000)` code to work
+
+## Unresolved Challenges and Future Development
+While the base simulation was successful, two specific features remained unresolved during the development phase:
+
+**Curvature behavior**: The original idea was for agents to detect and react directly to the local curvature of the surface (e.g. slowing down in high-curvature areas). However, implementing this within the agent logic proved computationally difficult, and that is why the agents currently only respond to the surface through the projection constraint.
+
+**Life Cycle and Respawning**: I wanted to We implement a life and death cycle where agents would disappear after a certain travel distance or time and respawn at a new location. Due to the complexity of managing agent indices i coulndt get this part to work bug-free.
+
+---
+## AI Acknowledgments
+AI tools were used during this project, in particular Gemini (Google) and ChatGPT (OpenAI). These tools were primarily used to help understand code-related calculations, support the overall structure of the project, and assist with debugging when error messages occurred.
+
+The following are examples of how AI was used during the development process:
+
+*Describe in detail what happens in this calculation and explain it in a way that is understandable for a master’s student taking their first coding course*
+
+*I am receiving this error — can you explain why it occurs and how I can fix it so the simulation runs correctly?*
+
+
+---
+
+## References
+- **Documents and files from the course** 
+The project is strongly inspired by the script provided during the course. The same underlying logic has been extended and adapted for this work. For this reason, I would like to credit my instructor, Özgüç Bertug Çapunaman, as a reference for this project.
+
+- **Rhino documentation**: [https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature](https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature)
+
+
