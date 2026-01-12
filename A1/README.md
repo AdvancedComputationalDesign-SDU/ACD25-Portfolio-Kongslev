@@ -151,6 +151,19 @@ The results from this assignment can be seen below with a short discribtion
 
 *Figure 5: showing a combination of RGB gradient and noisepattern*  
 
+
+---
+## AI Acknowledgments
+AI tools were used during this project, in particular Gemini (Google) and ChatGPT (OpenAI). These tools were primarily used to help understand code-related calculations, support the overall structure of the project, and assist with debugging when error messages occurred.
+
+The following are examples of how AI was used during the development process:
+
+*Describe in detail what happens in this calculation and explain it in a way that is understandable for a master’s student taking their first coding course*
+
+*i get a error can you decribe what it means and how to fix it*
+
+*image- why does my image look wong in the github browser, can you help me fix this*
+
 ---
 
 ## References
@@ -160,5 +173,3 @@ The results from this assignment can be seen below with a short discribtion
 - creating array: [Numpy array slicing](https://www.w3schools.com/python/numpy/numpy_array_slicing.asp?utm_source=chatgpt.com)
 - creating random pattern: [Numpy.random.choice] (https://numpy.org/doc/stable/reference/random/generated/numpy.random.choice.html)
 - Theory on color gradient:(https://en.wikipedia.org/wiki/Color_gradient)
-- i used ChatGPT for Debuging so when my code didn't work and also to help with understandig GitHup
----
