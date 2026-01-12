@@ -282,44 +282,68 @@ You are expected to produce at least **three** visually distinct configurations.
 
 ### Parameter and Signal Table (Example)
 
-```
 
-| Design | Signals Used         | Key Parameters                       | Surface parameters               |
-|--------|----------------------|--------------------------------------|----------------------------------|
-| A      | surface + seperation | n_agents=80, vision_r=4.0, sep=2.0   |freq_x=1.0, freq_y=1.0, height=22 |
-| B      | surface + seperation | n_agents=200, vision_r=2.5, sep=4.0  |freq_x=1.0, freq_y=1.0, height=22 |
-| C      | surface + seperation | n_agents=200, vision_r=1.5, sep=10.0 |freq_x=2.1, freq_y=2.1, height=15 |
 
-```
+| Design | Signals Used          | Key Parameters                        | Surface parameters                |
+|-------:|----------------------:|--------------------------------------:|----------------------------------:|
+| A      | surface + separation  | n_agents=80, vision_r=4.0, sep=2.0    | freq_x=1.0, freq_y=1.0, height=22 |
+| B      | surface + separation  | n_agents=200, vision_r=2.5, sep=4.0   | freq_x=1.0, freq_y=1.0, height=22 |
+| C      | surface + separation  | n_agents=200, vision_r=1.5, sep=10.0  | freq_x=2.1, freq_y=2.1, height=15 |
 
-### Variation A: [Name/Description]
+
+### Variation A: [Low agent number]
+
+**Signals Used**: Surface geometry + Low separation.
+
+**Parameters Changed**: `n_agents=80`, `vision_r=4.0`, `sep=2.0`, `freq_x/y=1.0`, `height=22`
+
+**Description**: With a low agent count and minimal separation force, the surface geometry dominates the movement. Because the agents don't compete for space, they naturally gravitate toward the large valleys of the waves. This results in a open structure.
 
 ![Variation A](images/output_1.jpg)
 ![Variation A](images/output_1.1.jpg)
+
+*images shows how the agents movement can be used for Panelization*
+
 ![Variation A](images/output_1.2.jpg)
+
+*vectors showing the agents direction*
+
 ![Variation A](images/output_1.3.jpg)
 ![Variation A](images/output_1.4.jpg)
 
-- **Signals Used**: e.g., curvature + slope
-- **Parameters Changed**: list the main parameters and their values.
-- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
+*showing the trajectories trace from the agents movement, i let it run for around 2 min with the 20 ms timer*
 
-### Variation B: [Name/Description]
+
+
+### Variation B: [High agent number]
+
+- **Signals Used**: Surface geometry + Moderate separation
+
+- **Parameters Changed**: `n_agents=200`, `vision_r=2.5`, `sep=4.0`, `freq_x/y=1.0`, `height=22` 
+
+- **Description**: This iteration increases both the agent density and their personal space. By raising the separation force, agents are forced to spread out across the curved faces rather than huddling in the lowest points. This creates a more systematic and even panelization that covers the surface effectively, showing a clear balance between the terrain's shape and the agents' social distance.
 
 ![Variation B](images/output_2.jpg)
 ![Variation B](images/output_2.1.jpg)
 
+*images shows how the agents movement can be used for Panelization*
 
-- **Signals Used**: e.g., curvature + slope
-- **Parameters Changed**: list the main parameters and their values.
-- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
 
-### Variation C: [Name/Description]
+### Variation C: [Complex surface]
+
+- **Signals Used**: Complex surface + High separation
+
+- **Parameters Changed**: `n_agents=200`, `vision_r=1.5`, `sep=10.0`, `freq_x/y=2.1`, `height=15`
+
+- **Description**: By making the surface more turbulent with a higher frequency and setting separation to the maximum, the system becomes much more reactive. Agents only sense their immediate neighbors but push away from them with great force. This creates a more detailed and and dense panelization.
+
 
 ![Variation C](images/output_3.jpg)
 ![Variation C](images/output_3.1.jpg)
 ![Variation C](images/output_3.2.jpg)
 
-- **Signals Used**: e.g., curvature + slope
-- **Parameters Changed**: list the main parameters and their values.
-- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
+*images shows how the agents movement can be used for Panelization*
+
+
+```
+
