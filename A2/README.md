@@ -9,7 +9,6 @@ search_exclude: false
 
 # Assignment 2: Exploring Fractals through Recursive Geometric Patterns
 
-
 ## Table of Contents
 
 - [Project Overview](#project-overview)
