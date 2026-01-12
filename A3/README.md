@@ -9,7 +9,6 @@ search_exclude: false
 
 # Assignment 3: Parametric Structural Canopy
 
-
 ## Table of Contents
 
 - [Project Overview](#project-overview)
