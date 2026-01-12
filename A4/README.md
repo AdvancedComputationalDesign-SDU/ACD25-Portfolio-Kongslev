@@ -282,12 +282,14 @@ You are expected to produce at least **three** visually distinct configurations.
 
 ### Parameter and Signal Table (Example)
 
-```markdown
-| Design | Signals Used         | Key Parameters                      | Surface parameters               |
-|--------|----------------------|-------------------------------------|----------------------------------|
-| A      | surface + seperation | n_agents=80, vision_r=4.0, sep=2.0  |freq_x=1.0, freq_y=1.0, height=22 |
-| B      | surface + seperation | n_agents=200, vision_r=2.5, sep=4.0 |freq_x=1.0, freq_y=1.0, height=22 |
-| C      | surface + seperation | | n_agents=150, spawn_thresh=0.5, attractor_radius=5.0    |
+```
+
+| Design | Signals Used         | Key Parameters                       | Surface parameters               |
+|--------|----------------------|--------------------------------------|----------------------------------|
+| A      | surface + seperation | n_agents=80, vision_r=4.0, sep=2.0   |freq_x=1.0, freq_y=1.0, height=22 |
+| B      | surface + seperation | n_agents=200, vision_r=2.5, sep=4.0  |freq_x=1.0, freq_y=1.0, height=22 |
+| C      | surface + seperation | n_agents=200, vision_r=1.5, sep=10.0 |freq_x=2.1, freq_y=2.1, height=15 |
+
 ```
 
 ### Variation A: [Name/Description]
@@ -312,3 +314,12 @@ You are expected to produce at least **three** visually distinct configurations.
 - **Parameters Changed**: list the main parameters and their values.
 - **Description**: explain how these settings influence agent behaviors and the resulting panelization.
 
+### Variation C: [Name/Description]
+
+![Variation C](images/output_3.jpg)
+![Variation C](images/output_3.1.jpg)
+![Variation C](images/output_3.2.jpg)
+
+- **Signals Used**: e.g., curvature + slope
+- **Parameters Changed**: list the main parameters and their values.
+- **Description**: explain how these settings influence agent behaviors and the resulting panelization.
