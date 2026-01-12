@@ -1,8 +1,9 @@
 """
 Assignment 4: Agent-Based Model for Surface Panelization
-Author: Your Name
 
-Agent Simulator Template
+Author: Freja Kongslev
+
+Agent Simulator 
 
 Description:
 This file defines the structural outline for stepping and visualizing
@@ -14,42 +15,19 @@ Note: This script is intended to be used within Grasshopper's Python
 scripting component.
 """
 
-# -----------------------------------------------------------------------------
-# Imports (extend as needed)
-# -----------------------------------------------------------------------------
 import rhinoscriptsyntax as rs
-import numpy as np
 
-# -----------------------------------------------------------------------------
-# Retrieve agents from upstream Grasshopper component
-# -----------------------------------------------------------------------------
-# Expected pattern (example):
-# agents = x.agents  # where `x` is a stateful component instance
-# Replace `x` and the attribute name with whatever your GH setup uses.
+#----Get the agents from the previous component----
+boids = boids_component.agents
 
-agents = x.agents # access agents from the agents_builder component
+#-----update each boid/agent--------
+for b in boids:
+    # Apply steering forces with weights and radius provided from inputs
+    b.steer(boids, rad, sep, coh, ali)
+    
+    # update agent position and project it onto the surface
+    b.update(surface) 
 
-# -----------------------------------------------------------------------------
-# Step simulation (delegated to Agent methods)
-# -----------------------------------------------------------------------------
-# Suggested loop structure:
-if agents is not None:
-    for agent in agents:
-        agent.update(agents)
-
-# -----------------------------------------------------------------------------
-# Visualization placeholders (Rhino + NumPy-friendly)
-# -----------------------------------------------------------------------------
-# Minimal outputs:
-# - Points representing agent positions
-# - Vectors, polylines, trails, or any custom debug geometry
-
-P = []  # list of position points (e.g., rs.AddPoint(...))
-V = []  # list of velocity vectors or other debug geometry
-
-# Example geometry generation (uncomment and adapt):
-for agent in agents:
-    P.append(rs.AddPoint(agent.position[0], agent.position[1], agent.position[2]))
-    # create a line or vector visualization from pos in direction vel
-    end = agent.position + agent.velocity
-    V.append(rs.AddLine(rs.coerce3dpoint(pos), rs.coerce3dpoint(end)))
+# Outputs
+positions = [b.position for b in boids]
+vectors = [b.velocity for b in boids]

@@ -9,32 +9,344 @@ search_exclude: false
 
 # Assignment 4: Agent-Based Modeling for Surface Panelization
 
-[View on GitHub]({{ site.github.repository_url }})
+## Table of Contents
 
-![Example Structural Panelization](images/agent_based.jpg)
+- [Project Overview](#project-overview)
+- [Pseudo-Code](#pseudo-code)
+- [Technical Explanation](#technical-explanation)
+- [Design Variations](#design-variations)
+- [Challenges and Solutions](#challenges-and-solutions)
+- [AI Acknowledgments](#ai-acknowledgments)
+- [References](#references)
 
-## Objective
+---
+## Project Overview
 
-In this assignment, you will develop an **agent-based system for surface rationalization** using **Object-Oriented Programming (OOP)** in Python. Building on the surface you generated in Assignment 3 (or a comparable heightmap-driven surface), you will design agents that respond to geometric signals and collectively produce **panelization patterns**. The core idea is that agents move, interact, and make decisions based on how they sample the geometry, and their trajectories and interactions become the basis for a rationalized panelization of that surface.
-
-Your implementation must incorporate **at least two types of geometric signals** (chosen from curvature, slope, vector fields, scalar fields, and spatial influences) when defining agent behavior. The primary outputs of this assignment are: (1) a rationalized panelization of your surface and (2) simulated agent trajectories and fields that you document and analyze.
+This project explores Agent-Based Modeling for Surface Panelization. The surface is generated as a heightmap-based surface, where agents are placed randomly. The movement of the agents is constrained to the surface geometry which forces them to adapt their trajectories to both the curvature of the terrain and the positions of their neighbors. The result is a self-organizing network that reflects the interaction between agents behavior and the surface geometry. This will be explored in more detail throughout the documentation of the project.
 
 ---
 
-## Repository Structure
+## Pseudo-Code
+This project consist of three python moduls:
 
-```
-A4/
-├── index.md                    # Do not edit front matter or content
-├── README.md                   # Project documentation; Keep front matter, replace the rest with your project documentation
-├── BRIEF.md                    # Assignment brief; Do not edit front matter or content
-├── agent_panelization.gh       # Your grasshopper definition
-├── surface_generator.py        # Your surface_generator implementation
-├── agent_builder.py            # Your agent_builder implementation
-├── agent_simulator.py          # Your agent_simulator implementation
-├── ...                         # Any additional implementation
-└── images/                     # Add diagram, intermediary, and final images here
-    ├── agent_based.png         # Assignment brief image; Do not delete
-    └── ...
-```
+- `surface_generator.py` — base surface generation using a NumPy heightmap.
+- `agent_builder.py` — agent class definitions and agent initialization.
+- `agent_simulator.py` — simulation loop and visualization. 
+
+The pseudo-code for each module is described in detail below.
+
+### Surface generator (heightmap)
+
+1. **Setting up the python component**
+
+    Input:
+    - surface (surface): Rhino surface object
+    - U (int): number of divisions along U direction
+    - V (int): number of divisions along V direction
+    - freq_u (float): frequency of wave in U direction
+    - freq_v (float): frequency of wave in V direction
+    - height (float): height of the waves
+    
+    Output:
+    - srf: manipulated surface
+
+1. **Import Libraries**
+   - import relevent libraries
+
+2. **Generate Heightmap `generate_heightmap(shape, amplitude, freq_x, freq_y)`**
+   - **Process:**
+     - Create `x` and `y` arrays
+     - Make a grid `X, Y`
+     - Compute `heightmap = sin(2π * freq_y * Y) * cos(2π * freq_x * X) * amplitude`
+   - **Output:** 2D array of heights
+
+3. **Sample Surface Uniformly `sample_surface_uniform(surface, shape)`**
+   - **Process:**
+     - Get U/V domains of surface
+     - Create `u_vals` and `v_vals` linspace
+     - Evaluate points at each `(u,v)` → store in `point_grid`
+   - **Output:** 2D array of Point3d objects
+
+4. **Manipulate Points with Heightmap `manipulate_point_grid(heightmap, point_grid)`**
+   - **Process:**
+     - For each point, add `heightmap[i,j]` to Z-coordinate
+     - Store in `manipulated_grid`
+   - **Output:** Updated 2D array of points
+
+5. **Build Surface `build_surface(point_grid, deg_u, deg_v)`**
+   - **Process:**
+     - Flatten `point_grid` to list
+     - Create NURBS surface through points using degrees `deg_u` and `deg_v`
+    - **Output:** New NURBS surface
+
+6. **Main**
+   - Set `shape = (U, V)`
+   - `heightmap = generate_heightmap`
+   - `pt_grid = sample_surface_uniform`
+   - `manip_pt_grid = manipulate_point_grid`
+   - `srf = build_surface`
+- **Output:** surface: final manipulated surface
+
+   
+### Agent builder
+
+1. **Import Libraries**
+   - import relevent libraries
+
+2. **Define Boid Class**
+
+   - **Attributes**
+     - `position` → current 3D position on the surface
+     - `velocity` → small random 3D vector
+     - `done` → to stop movement if needed
+
+   - **Initialize Boid `__init__(position)`**
+     - Set initial `position`
+     - give a `velocity`
+     - Set `done = False`
+
+3. **Distance and Neighbor Handling**
+   - **Distance Function `dist(other)`**
+     - Calculate the straight-line distance to another boid
+
+   - **Sort Neighbors `sorted_neighbors(others)`**
+     - Return all other boids sorted by distance
+
+   - **Find Neighbors in Radius `_neighbors_in_radius(others, radius)`**
+     - Loop through sorted neighbors
+     - Collect boids within `radius`
+     - Stop checking once distance exceeds radius
+
+4. **Surface Constraint**
+   - **Constrain to Surface `_constrain_to_surface(surface)`**
+     - Find closest UV point on surface
+     - Evaluate surface at that UV point
+     - Update boid position to be exactly on surface
+
+5. **Steering Forces**
+   - **Separation Force `_separation_force(neighbors)`**
+     - Push boid away from close neighbors
+     - Stronger force when distance is small
+
+6. **Combine Steering Behaviors `steer(others, radius, weights)`**
+   - Find neighbors within `radius`
+   - generate:
+     - Separation
+   - Apply weights to each force
+   - Add forces to the velocity
+   - Limit velocity to `max_velocity`
+
+7. **Update Boid Position `update(surface)`**
+   - Add velocity to position
+   - Project updated position back onto the surface
+
+8. **Build Initial Agents `build_agents(n_agents, surface, seed)`**
+   - random seed for reproducibility
+   - Get surface U/V domains
+   - For each boid/agents:
+     - Pick random `(u, v)` on surface
+     - Evaluate surface point
+     - Create new Boid at that position
+   - Return list of boids
+
+9. **Grasshopper Script Execution**
+   - **RunScript(N, reset, start_surface)**
+     - If `reset` or no agents exist:
+       - Create new agents on surface
+     - For each agent:
+       - Apply steering behavior
+       - Update position on surface
+     - Store agents for next iteration
+- **Output:** agents
+
+
+### Agent simulator
+
+1. **Import Libraries**
+   - import relevent libraries
+
+2. **Access the agents**
+   - Retrieve the list of agents from the agent component:
+     - `boids = boids_component.agents`
+
+3. **Update the Simulation**
+   - **For** each boid in `boids`:
+     - Apply steering behavior using current parameters:
+       - Neighborhood radius
+       - Separation
+     - Update the boid’s position
+     - Project the boid back onto the surface
+
+4. **Collect Output Data**
+   - Create a list of boid positions:
+     - `positions = [b.position for b in boids]`
+   - Create a list of boid velocity vectors:
+     - `vectors = [b.velocity for b in boids]`
+
+- **Output:** Positions and vectors
+
 ---
+
+## Technical Explanation
+
+### 1. Overall Pipeline
+The project is structured as an agent-based system that operates on a generated surface.
+The workflow is divided into three main stages:
+
+1. **Surface generation**
+A base surface is generated by sampling an existing Rhino surface and applying a heightmap. This creates a continuous, smoothly deformed surface that defines where agents are allowed to move.
+
+2. **Agent initialization**
+A fixed number of agents are placed directly on the surface by sampling random UV coordinates and evaluating the surface at those locations.
+
+3. **Simulation**
+The agents move across the surface using local interaction rules.
+After each step, their positions are updated and projected back onto the surface.
+The resulting agent positions and velocities are output for visualization in Grasshopper.
+
+4. **Panelization**
+Based on the way the agents move and react, it becomes possible to panelize the surface using the network that is created from their interactions.
+
+### 2. Surface Generation
+The surface is generated by applying a sinusoidal heightmap to a uniformly sampled surface grid. The modified points are used to reconstruct a new NURBS surface.
+This surface work as the main spatial constraint for the agents movement.
+
+### 3. Agent Behavior and Signals
+The agents behavior is driven by distance-based interaction and surface constraint.
+The agents react to nearby agents within a given radius which controls the spacing and prevents overlap. the Steering is based on a separation force that pushes agents away from close neighbors.
+
+Cohesion and alignment are intentionally disabled by setting their weights to zero.
+This prevents agents from forming flocks or moving in a unified direction, allowing the system to emphasize avoidance and surface-driven movement instead of group behavior.
+
+### 4. Agent Life-Cycle and Interactions
+Agents are created at the start of the simulation or when a reset is triggered.
+The agents are placed randomly on the surface at the begining of the simulation
+
+The Agents interact through separation which ensures that agents maintain distance from each other while still forming dynamic movement patterns across the surface.
+
+### 5. Simulation
+The simulation runs continuously as long as Grasshopper recomputes the script there is no stop in the code so the simulation should be stop manully. 
+
+### 6. Multi-Module Design
+The project is divided into three components:
+
+- Surface component
+Responsible for generating and modifying the surface geometry.
+
+- Agent component
+Defines agent rules, local interactions, and surface constraints.
+
+- Simulation component
+Updates agents over time and passes results to Grasshopper.
+
+This modular setup makes the system easier to control, test, and extend
+
+---
+
+## Design Variations
+To demonstrate the flexibility of the code, I have generated 3 different iterations by adjusting the key parameters 
+
+### Parameter and Signal Table
+
+*(The following table outlines the specific parameters used for each iteration)*
+
+| Design | Signals Used          | Key Parameters                        | Surface parameters                |
+|-------:|----------------------:|--------------------------------------:|----------------------------------:|
+| A      | surface + separation  | n_agents=80, vision_r=4.0, sep=2.0    | freq_x=1.0, freq_y=1.0, height=22 |
+| B      | surface + separation  | n_agents=200, vision_r=2.5, sep=4.0   | freq_x=1.0, freq_y=1.0, height=22 |
+| C      | surface + separation  | n_agents=200, vision_r=1.5, sep=10.0  | freq_x=2.1, freq_y=2.1, height=15 |
+
+
+### Variation A: [Low agent number]
+
+**Signals Used**: Surface geometry + Low separation.
+
+**Parameters Changed**: `n_agents=80`, `vision_r=4.0`, `sep=2.0`, `freq_x/y=1.0`, `height=22`
+
+**Description**: With a low agent count and minimal separation force, the surface geometry dominates the movement. Because the agents don't compete for space, This results in a more open Panelization .
+
+![Variation A](images/output_1.jpg)
+![Variation A](images/output_1.1.jpg)
+
+*images shows how the agents movement can be used for Panelization*
+
+![Variation A](images/output_1.2.jpg)
+
+*vectors showing the agents direction*
+
+![Variation A](images/output_1.3.jpg)
+![Variation A](images/output_1.4.jpg)
+
+*showing the trajectories trace from the agents movement, i let it run for around 2 min with the 20 ms timer*
+
+
+
+### Variation B: [High agent number]
+
+- **Signals Used**: Surface geometry + Moderate separation
+
+- **Parameters Changed**: `n_agents=200`, `vision_r=2.5`, `sep=4.0`, `freq_x/y=1.0`, `height=22` 
+
+- **Description**: This iteration increases both the agent density and their personal space. By raising the separation force, agents are forced to spread a bit more out across the surface. This creates a more systematic and even panelization that covers the surface effectively.
+
+![Variation B](images/output_2.jpg)
+![Variation B](images/output_2.1.jpg)
+
+*images shows how the agents movement can be used for Panelization*
+
+
+### Variation C: [Complex surface]
+
+- **Signals Used**: Complex surface + High separation
+
+- **Parameters Changed**: `n_agents=200`, `vision_r=1.5`, `sep=10.0`, `freq_x/y=2.1`, `height=15`
+
+- **Description**: This iteration shows a more complex and detailed network. The increased surface frequency creates numerous small peaks and valleys, to which the agents respond by forming a fine-grained mesh. Maximum separation force pushes the agents into fixed positions, resulting in a denser structure that represents the geometric changes in the terrain
+
+![Variation C](images/output_3.jpg)
+![Variation C](images/output_3.1.jpg)
+![Variation C](images/output_3.2.jpg)
+
+*images shows how the agents movement can be used for Panelization*
+
+
+---
+
+## Challenges and Solutions
+
+### NURB surface instead of mesh 
+At first, I planned to reuse the mesh from Assignment 3 as the base surface. However, this caused the agents to read the surface incorrectly, and the file quickly became too heavy for my computer to handle. To solve this, I created a new component that generates a NURBS surface instead, which resolved the issues.
+
+### Performance with Many Agents
+As the number of agents increases, the separation calculation became bigger, since each agent needs to check its distance to every other agent in each simulation step. the solution to this was to optimized the logic by introducing a local vision radius. By limiting each agent’s “field of view” and only calculating forces from nearby neighbors, the simulation could take in more agents.
+
+### RecursionError
+The simulation would suddenly stop after a few steps and fail with a RecursionError. This happened because Grasshopper continuously recomputes the script to advance the simulation, and over time this repeated execution exceeds Python’s recursion limit. i didn't really find a soultion for this because i couldnt get the `sys.setrecursionlimit(2000)` code to work
+
+## Unresolved Challenges and Future Development
+While the base simulation was successful, two specific features remained unresolved during the development phase:
+
+**Curvature behavior**: The original idea was for agents to detect and react directly to the local curvature of the surface (e.g. slowing down in high-curvature areas). However, implementing this within the agent logic proved computationally difficult, and that is why the agents currently only respond to the surface through the projection constraint.
+
+**Life Cycle and Respawning**: I wanted to We implement a life and death cycle where agents would disappear after a certain travel distance or time and respawn at a new location. Due to the complexity of managing agent indices i coulndt get this part to work bug-free.
+
+---
+## AI Acknowledgments
+AI tools were used during this project, in particular Gemini (Google) and ChatGPT (OpenAI). These tools were primarily used to help understand code-related calculations, support the overall structure of the project, and assist with debugging when error messages occurred.
+
+The following are examples of how AI was used during the development process:
+
+*Describe in detail what happens in this calculation and explain it in a way that is understandable for a master’s student taking their first coding course*
+
+*I am receiving this error — can you explain why it occurs and how I can fix it so the simulation runs correctly?*
+
+
+---
+
+## References
+- **Documents and files from the course** 
+The project is strongly inspired by the script provided during the course. The same underlying logic has been extended and adapted for this work. For this reason, I would like to credit my instructor, Özgüç Bertug Çapunaman, as a reference for this project.
+
+- **Rhino documentation**: [https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature](https://developer.rhino3d.com/api/RhinoScriptSyntax/?#surface-SurfaceCurvature)
+
+
